@@ -37,14 +37,17 @@ c11.addEventListener("click", function () { revealCard(11) });
 var oneVisible = false;
 var turnCounter = 0;
 var visibleNumber;
+var lock = false;
+var pairsLeft = 6;
 
 function revealCard(number) {
     // alert(number);
 
     var opacityValue = $('#c' + number).css('opacity');
 
-    if (opacityValue != 0) {
+    if (opacityValue != 0 && lock == false) {
 
+        lock = true;
         var picture = "url(img/" + cards[number] + ")";
 
         $('#c' + number).css('background-image', picture);
@@ -55,6 +58,7 @@ function revealCard(number) {
 
             oneVisible = true;
             visibleNumber = number;
+            lock = false;
 
         } else {
 
@@ -78,6 +82,14 @@ function revealCard(number) {
 function hide2Cards(firstCard, secondCard) {
     $('#c' + firstCard).css('opacity', '0');
     $('#c' + secondCard).css('opacity', '0');
+
+    pairsLeft --;
+
+    if(pairsLeft == 0){
+        $('.board').html('<h1>You Win!!! <br> Done in ' + turnCounter + ' turns <br><br> WELL DONE!</h1>');
+    }
+
+    lock = false;
 }
 
 function restore2Cards(firstCard, secondCard) {
@@ -88,5 +100,7 @@ function restore2Cards(firstCard, secondCard) {
     $('#c' + secondCard).css('background-image', 'url(img/ring.png)');
     $('#c' + secondCard).addClass('card');
     $('#c' + secondCard).removeClass('cardA');
+
+    lock = false;
 }
 
